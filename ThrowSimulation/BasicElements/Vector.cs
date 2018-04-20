@@ -55,5 +55,10 @@ namespace ThrowSimulation.BasicElements
             x = temp_x;
             y = temp_y;
         }
+
+        public static Vector operator +(Vector vec1, Vector vec2)
+        {
+            return new Vector(vec1.x + vec2.x, vec1.y + vec2.y);
+        }
     }
 }
