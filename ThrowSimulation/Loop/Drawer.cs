@@ -25,5 +25,13 @@ namespace ThrowSimulation.Loop
 
             window.Draw(ver_arr);
         }
+
+        public void DrawProjectile(RenderWindow window, Projectile projectile)
+        {
+            CircleShape circle = new CircleShape((float)projectile.radius, 30);
+            circle.Position = new Vector2f((float)projectile.hitch.x, (float)projectile.hitch.y);
+            circle.FillColor = new Color(255, 50, 255);
+            window.Draw(circle);
+        }
     }
 }

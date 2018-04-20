@@ -13,6 +13,8 @@ namespace ThrowSimulation.Loop
     {
         Drawer drawer;
         Canon canon;
+        Projectile projectile;
+        List<Vector> vectors;
 
         public InitLoop(uint width, uint height, string title) : base(width, height, title)
         {
@@ -22,6 +24,10 @@ namespace ThrowSimulation.Loop
         {
             drawer = new Drawer();
             canon = new Canon(new Point(100, 100), new Vector(100, 30), 30, 5);
+            projectile = new Projectile(new Point(300, 300), 30);
+
+            vectors = new List<Vector>();
+            vectors.Add(new Vector(-2.0 / 60.0, -2.0 / 60.0));
         }
 
         protected override void LoadContent()
@@ -31,11 +37,13 @@ namespace ThrowSimulation.Loop
         protected override void Update(double dt)
         {
             canon.Move(adapter.cursor);
+            projectile.MoveFor(vectors);
         }
 
         protected override void Render(double leftover_time)
         {
             drawer.DrawCanon(window, canon);
+            drawer.DrawProjectile(window, projectile);
         }
     }
 }
