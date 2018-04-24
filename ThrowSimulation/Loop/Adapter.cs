@@ -11,6 +11,5 @@ namespace ThrowSimulation.Loop
     {
         public Point cursor = new Point(0, 0);
         public bool LMP_click = false;
-        public bool second_passed = false;
     }
 }
