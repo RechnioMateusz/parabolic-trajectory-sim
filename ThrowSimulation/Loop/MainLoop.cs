@@ -22,7 +22,7 @@ namespace ThrowSimulation.Loop
         {
             this.width = width;
             this.height = height;
-            window = new RenderWindow(new VideoMode(this.width, this.height), title, Styles.Titlebar, new ContextSettings { DepthBits = 24, AntialiasingLevel = 4 });
+            window = new RenderWindow(new VideoMode(this.width, this.height), title, Styles.Titlebar, new ContextSettings { DepthBits = 8, AntialiasingLevel = 2 });
             this.background_color = Color.Black;
 
             window.KeyPressed += Window_KeyPressed;
@@ -46,7 +46,7 @@ namespace ThrowSimulation.Loop
         {
             if (e.Button == Mouse.Button.Left)
             {
-                adapter.LMP = true;
+                adapter.LMP_click = true;
             }
         }
 
@@ -54,7 +54,7 @@ namespace ThrowSimulation.Loop
         {
             if (e.Button == Mouse.Button.Left)
             {
-                adapter.LMP = false;
+                adapter.LMP_click = false;
             }
         }
 

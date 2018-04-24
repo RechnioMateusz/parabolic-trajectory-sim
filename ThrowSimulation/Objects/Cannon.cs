@@ -7,13 +7,13 @@ using ThrowSimulation.BasicElements;
 
 namespace ThrowSimulation.Objects
 {
-    class Canon
+    class Cannon
     {
         public Point hitch;
         public Point[] shape;
         public double length, width;
 
-        public Canon(Point hitch, Vector direction, double length, double width)
+        public Cannon(Point hitch, Vector direction, double length, double width)
         {
             shape = new Point[4];
             this.hitch = hitch;

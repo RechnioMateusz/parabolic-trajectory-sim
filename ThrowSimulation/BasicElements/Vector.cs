@@ -60,5 +60,25 @@ namespace ThrowSimulation.BasicElements
         {
             return new Vector(vec1.x + vec2.x, vec1.y + vec2.y);
         }
+
+        public static Vector operator *(Vector vec1, double num)
+        {
+            return new Vector(vec1.x * num, vec1.y * num);
+        }
+
+        public static Vector operator *(double num, Vector vec1)
+        {
+            return new Vector(vec1.x * num, vec1.y * num);
+        }
+
+        public static Vector operator *(Vector vec1, int num)
+        {
+            return new Vector(vec1.x * num, vec1.y * num);
+        }
+
+        public static Vector operator *(int num, Vector vec1)
+        {
+            return new Vector(vec1.x * num, vec1.y * num);
+        }
     }
 }
