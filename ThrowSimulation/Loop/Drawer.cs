@@ -13,7 +13,7 @@ namespace ThrowSimulation.Loop
 {
     class Drawer
     {
-        public void DrawCanon(RenderWindow window, Canon canon)
+        public void DrawCanon(RenderWindow window, Cannon canon)
         {
             VertexArray ver_arr = new VertexArray(PrimitiveType.LinesStrip);
 

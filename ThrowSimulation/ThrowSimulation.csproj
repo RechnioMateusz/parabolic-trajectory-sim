@@ -61,7 +61,7 @@
     <Compile Include="Loop\Drawer.cs" />
     <Compile Include="Loop\InitLoop.cs" />
     <Compile Include="Loop\MainLoop.cs" />
-    <Compile Include="Objects\Canon.cs" />
+    <Compile Include="Objects\Cannon.cs" />
     <Compile Include="Objects\Projectile.cs" />
     <Compile Include="Objects\Scene.cs" />
     <Compile Include="Program.cs" />

@@ -21,7 +21,7 @@ namespace ThrowSimulation.Loop
         protected override void Initialize()
         {
             drawer = new Drawer();
-            new_scene = new Scene(new Canon(new Point(100, 450), new Vector(100, 30), 30, 5), width, height);
+            new_scene = new Scene(new Cannon(new Point(100, 450), new Vector(100, 30), 30, 5), width, height);
         }
 
         protected override void LoadContent()
@@ -31,7 +31,7 @@ namespace ThrowSimulation.Loop
         protected override void Update(double dt)
         {
             new_scene.UpdateProjectiles();
-            new_scene.canon.Move(adapter.cursor);
+            new_scene.cannon.Move(adapter.cursor);
             bool shot = new_scene.Shoot(adapter.LMP_click, adapter.cursor);
             if (shot)
             {
@@ -41,7 +41,7 @@ namespace ThrowSimulation.Loop
 
         protected override void Render(double leftover_time)
         {
-            drawer.DrawCanon(window, new_scene.canon);
+            drawer.DrawCanon(window, new_scene.cannon);
             for (int i = 0; i < new_scene.projectiles.Count; i++)
             {
                 drawer.DrawProjectile(window, new_scene.projectiles.ElementAt(i));

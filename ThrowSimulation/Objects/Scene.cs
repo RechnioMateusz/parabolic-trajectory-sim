@@ -9,13 +9,13 @@ namespace ThrowSimulation.Objects
 {
     class Scene
     {
-        public Canon canon;
+        public Cannon cannon;
         public List<Projectile> projectiles = new List<Projectile>();
         private double width, height;
 
-        public Scene(Canon canon, uint width, uint height)
+        public Scene(Cannon canon, uint width, uint height)
         {
-            this.canon = canon;
+            this.cannon = canon;
             this.width = width;
             this.height = height;
         }
@@ -24,8 +24,8 @@ namespace ThrowSimulation.Objects
         {
             if (mouse_click)
             {
-                Vector direction = new Vector(canon.hitch, mouse_position);
-                projectiles.Add(new Projectile(new Point(canon.hitch.x, canon.hitch.y), canon.width, direction));
+                Vector direction = new Vector(cannon.hitch, mouse_position);
+                projectiles.Add(new Projectile(new Point(cannon.hitch.x, cannon.hitch.y), cannon.width, direction));
 
                 return true;
             }
