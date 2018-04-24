@@ -11,13 +11,13 @@ namespace ThrowSimulation.Objects
     {
         public Point hitch;
         public double radius;
-        public Vector momentum_vector;
+        public VectorsField vectors;
 
-        public Projectile(Point hitch, double radius)
+        public Projectile(Point hitch, double radius, Vector starting_momentum)
         {
             this.hitch = hitch;
             this.radius = radius;
-            momentum_vector = new Vector();
+            vectors = new VectorsField(starting_momentum);
         }
 
         private Vector CalculateAccidentalVector(List<Vector> input_vectors)
@@ -32,10 +32,10 @@ namespace ThrowSimulation.Objects
             return temp;
         }
 
-        public void MoveFor(List<Vector> input_vectors)
+        public void MoveFor()
         {
-            momentum_vector += CalculateAccidentalVector(input_vectors);
-            hitch.MoveFor(momentum_vector.x, momentum_vector.y);
+            vectors.UpdateMomentum();
+            hitch.MoveFor(vectors.momentum.x / 60.0, vectors.momentum.y / 60.0);
         }
     }
 }
