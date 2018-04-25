@@ -12,9 +12,7 @@ namespace ThrowSimulation.Loop
     class InitLoop : MainLoop
     {
         Drawer drawer;
-        Canon canon;
-        Projectile projectile;
-        List<Vector> vectors;
+        Scene new_scene;
 
         public InitLoop(uint width, uint height, string title) : base(width, height, title)
         {
@@ -23,11 +21,7 @@ namespace ThrowSimulation.Loop
         protected override void Initialize()
         {
             drawer = new Drawer();
-            canon = new Canon(new Point(100, 100), new Vector(100, 30), 30, 5);
-            projectile = new Projectile(new Point(300, 300), 30);
-
-            vectors = new List<Vector>();
-            vectors.Add(new Vector(-2.0 / 60.0, -2.0 / 60.0));
+            new_scene = new Scene(new Cannon(new Point(100, 450), new Vector(100, 30), 30, 5), width, height);
         }
 
         protected override void LoadContent()
@@ -36,14 +30,23 @@ namespace ThrowSimulation.Loop
 
         protected override void Update(double dt)
         {
-            canon.Move(adapter.cursor);
-            projectile.MoveFor(vectors);
+            new_scene.UpdateProjectiles();
+            new_scene.cannon.Move(adapter.cursor);
+            bool shot = new_scene.Shoot(adapter.LMP_click, adapter.cursor);
+            if (shot)
+            {
+                adapter.LMP_click = false;
+            }
         }
 
         protected override void Render(double leftover_time)
         {
-            drawer.DrawCanon(window, canon);
-            drawer.DrawProjectile(window, projectile);
+            drawer.DrawCanon(window, new_scene.cannon);
+            for (int i = 0; i < new_scene.projectiles.Count; i++)
+            {
+                drawer.DrawProjectile(window, new_scene.projectiles.ElementAt(i));
+                drawer.DrawVectorsField(window, new_scene.projectiles.ElementAt(i));
+            }
         }
     }
 }

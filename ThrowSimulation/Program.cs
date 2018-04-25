@@ -11,7 +11,7 @@ namespace ThrowSimulation
     {
         static void Main(string[] args)
         {
-            InitLoop loop = new InitLoop(500, 500, "throw symulation");
+            InitLoop loop = new InitLoop(1000, 800, "throw symulation");
             loop.RUN();
         }
     }

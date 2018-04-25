@@ -13,7 +13,7 @@ namespace ThrowSimulation.Loop
 {
     class Drawer
     {
-        public void DrawCanon(RenderWindow window, Canon canon)
+        public void DrawCanon(RenderWindow window, Cannon canon)
         {
             VertexArray ver_arr = new VertexArray(PrimitiveType.LinesStrip);
 
@@ -30,8 +30,24 @@ namespace ThrowSimulation.Loop
         {
             CircleShape circle = new CircleShape((float)projectile.radius, 30);
             circle.Position = new Vector2f((float)projectile.hitch.x, (float)projectile.hitch.y);
-            circle.FillColor = new Color(255, 50, 255);
+            circle.FillColor = new Color(255, 255, 255);
             window.Draw(circle);
+        }
+
+        public void DrawVectorsField(RenderWindow window, Projectile projectile)
+        {
+            VertexArray ver_arr = new VertexArray(PrimitiveType.Lines);
+
+            for (int i = 0; i < projectile.vectors.const_forces.Length; i++)
+            {
+                ver_arr.Append(new Vertex(new Vector2f((float)projectile.hitch.x, (float)projectile.hitch.y), Color.Green));
+                ver_arr.Append(new Vertex(new Vector2f((float)(projectile.hitch.x + projectile.vectors.const_forces[i].x), (float)(projectile.hitch.y + projectile.vectors.const_forces[i].y)), Color.Green));
+            }
+
+            ver_arr.Append(new Vertex(new Vector2f((float)projectile.hitch.x, (float)projectile.hitch.y), Color.Magenta));
+            ver_arr.Append(new Vertex(new Vector2f((float)(projectile.hitch.x + projectile.vectors.momentum.x), (float)(projectile.hitch.y + projectile.vectors.momentum.y)), Color.Magenta));
+
+            window.Draw(ver_arr);
         }
     }
 }
