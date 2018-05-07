@@ -12,12 +12,30 @@ namespace ThrowSimulation.Objects
         public Cannon cannon;
         public List<Projectile> projectiles = new List<Projectile>();
         private double width, height;
+        private double gravity = 9.81,
+            environment_density = 0.3,
+            resistance_force = 0.45,
+            shot_power = 2000,
+            projectile_radius;
 
-        public Scene(Cannon canon, uint width, uint height)
+        public Scene(Cannon cannon, uint width, uint height)
         {
-            this.cannon = canon;
+            this.cannon = cannon;
             this.width = width;
             this.height = height;
+            projectile_radius = cannon.width;
+        }
+
+        public Scene(Cannon cannon, uint width, uint height, double gravity, double environment_density, double resistance_force, double shot_power)
+        {
+            this.cannon = cannon;
+            this.width = width;
+            this.height = height;
+            projectile_radius = cannon.width;
+            this.gravity = gravity;
+            this.environment_density = environment_density;
+            this.resistance_force = resistance_force;
+            this.shot_power = shot_power;
         }
 
         public bool Shoot(bool mouse_click, Point mouse_position)
@@ -25,7 +43,9 @@ namespace ThrowSimulation.Objects
             if (mouse_click)
             {
                 Vector direction = new Vector(cannon.hitch, mouse_position);
-                projectiles.Add(new Projectile(new Point(cannon.hitch.x, cannon.hitch.y), cannon.width, direction));
+                direction.ToUnitary();
+                direction = direction * shot_power;
+                projectiles.Add(new Projectile(new Point(cannon.hitch.x, cannon.hitch.y), cannon.width, direction, gravity, (-environment_density * resistance_force)));
 
                 return true;
             }

@@ -13,11 +13,11 @@ namespace ThrowSimulation.Objects
         public double radius;
         public VectorsField vectors;
 
-        public Projectile(Point hitch, double radius, Vector starting_momentum)
+        public Projectile(Point hitch, double radius, Vector starting_momentum, double gravity, double env_dens_times_res)
         {
             this.hitch = hitch;
             this.radius = radius;
-            vectors = new VectorsField(starting_momentum);
+            vectors = new VectorsField(starting_momentum, gravity, (env_dens_times_res * radius));
         }
 
         private Vector CalculateAccidentalVector(List<Vector> input_vectors)

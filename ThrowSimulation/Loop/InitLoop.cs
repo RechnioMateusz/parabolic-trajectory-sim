@@ -18,14 +18,14 @@ namespace ThrowSimulation.Loop
         {
         }
 
+        protected override void LoadContent()
+        {
+        }
+
         protected override void Initialize()
         {
             drawer = new Drawer();
-            new_scene = new Scene(new Cannon(new Point(100, 450), new Vector(100, 30), 30, 5), width, height);
-        }
-
-        protected override void LoadContent()
-        {
+            new_scene = new Scene(new Cannon(new Point(100, 700), new Vector(100, 30), 30, 5), width, height);
         }
 
         protected override void Update(double dt)
@@ -45,7 +45,7 @@ namespace ThrowSimulation.Loop
             for (int i = 0; i < new_scene.projectiles.Count; i++)
             {
                 drawer.DrawProjectile(window, new_scene.projectiles.ElementAt(i));
-                drawer.DrawVectorsField(window, new_scene.projectiles.ElementAt(i));
+                //drawer.DrawVectorsField(window, new_scene.projectiles.ElementAt(i));
             }
         }
     }
