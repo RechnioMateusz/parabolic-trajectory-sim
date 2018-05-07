@@ -11,26 +11,21 @@ namespace ThrowSimulation.BasicElements
         public List<Vector> forces = new List<Vector>();
         public Vector momentum;
         public Vector[] const_forces = new Vector[2];
-        private double gravity = 16.7408;
-        private double air_resistance = 3.4;
+        private double gravity, air_res_without_velocity;
 
-        public VectorsField(Vector momentum)
+        public VectorsField(Vector momentum, double gravity, double air_res_without_velocity)
         {
             this.momentum = momentum;
             Vector gravity_vec = new Vector(0, 1);
             gravity_vec = gravity_vec * gravity;
-            Vector air_res_vec = new Vector(-momentum.x, -momentum.y);
-            air_res_vec.ToUnitary();
-            air_res_vec = air_res_vec * air_resistance;
+            Vector air_res_vec = air_res_without_velocity * momentum;
             const_forces[0] = gravity_vec;
             const_forces[1] = air_res_vec;
         }
 
         private void UpdateAirResistanceVec()
         {
-            Vector temp = new Vector(-momentum.x, -momentum.y);
-            temp.ToUnitary();
-            temp = temp * air_resistance;
+            Vector temp = air_res_without_velocity * momentum;
             const_forces[1] = temp;
         }
 

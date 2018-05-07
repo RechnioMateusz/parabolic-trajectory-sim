@@ -43,5 +43,17 @@ namespace ThrowSimulation.Objects
             shape[2].MoveTo(temp.x - (direction.x * width), temp.y - (direction.y * width));
             shape[3].MoveTo(hitch.x - (direction.x * width), hitch.y - (direction.y * width));
         }
+
+        public void ReshapeTo(double length, double width)
+        {
+            this.length = length;
+            this.width = width;
+        }
+
+        public void ReshapeFor(double length, double width)
+        {
+            this.length += length;
+            this.width += width;
+        }
     }
 }
