@@ -26,6 +26,7 @@ namespace ThrowSimulation.Loop
             this.background_color = Color.Black;
 
             window.KeyPressed += Window_KeyPressed;
+            window.KeyReleased += Window_KeyReleased;
             window.MouseButtonPressed += Window_MouseButtonPressed;
             window.MouseButtonReleased += Window_MouseButtonReleased;
             window.MouseMoved += Window_MouseMoved;
@@ -60,9 +61,94 @@ namespace ThrowSimulation.Loop
 
         private void Window_KeyPressed(object sender, KeyEventArgs e)
         {
-            if (e.Code == Keyboard.Key.Escape)
+            switch (e.Code)
             {
-                window.Close();
+                case Keyboard.Key.Q:
+                    adapter.key = 'q';
+                    break;
+                case Keyboard.Key.A:
+                    adapter.key = 'a';
+                    break;
+                case Keyboard.Key.W:
+                    adapter.key = 'w';
+                    break;
+                case Keyboard.Key.S:
+                    adapter.key = 's';
+                    break;
+                case Keyboard.Key.E:
+                    adapter.key = 'e';
+                    break;
+                case Keyboard.Key.D:
+                    adapter.key = 'd';
+                    break;
+                case Keyboard.Key.R:
+                    adapter.key = 'r';
+                    break;
+                case Keyboard.Key.F:
+                    adapter.key = 'f';
+                    break;
+                case Keyboard.Key.T:
+                    adapter.key = 't';
+                    break;
+                case Keyboard.Key.G:
+                    adapter.key = 'g';
+                    break;
+                case Keyboard.Key.F1:
+                    adapter.vectors *= -1;
+                    break;
+                case Keyboard.Key.F2:
+                    adapter.fill *= -1;
+                    break;
+                case Keyboard.Key.C:
+                    adapter.clear = true;
+                    break;
+                case Keyboard.Key.Escape:
+                    window.Close();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void Window_KeyReleased(object sender, KeyEventArgs e)
+        {
+            switch (e.Code)
+            {
+                case Keyboard.Key.Q:
+                    adapter.key = 'x';
+                    break;
+                case Keyboard.Key.A:
+                    adapter.key = 'x';
+                    break;
+                case Keyboard.Key.W:
+                    adapter.key = 'x';
+                    break;
+                case Keyboard.Key.S:
+                    adapter.key = 'x';
+                    break;
+                case Keyboard.Key.E:
+                    adapter.key = 'x';
+                    break;
+                case Keyboard.Key.D:
+                    adapter.key = 'x';
+                    break;
+                case Keyboard.Key.R:
+                    adapter.key = 'x';
+                    break;
+                case Keyboard.Key.F:
+                    adapter.key = 'x';
+                    break;
+                case Keyboard.Key.T:
+                    adapter.key = 'x';
+                    break;
+                case Keyboard.Key.G:
+                    adapter.key = 'x';
+                    break;
+                case Keyboard.Key.C:
+                    adapter.clear = false;
+                    break;
+                default:
+                    break;
             }
         }
 

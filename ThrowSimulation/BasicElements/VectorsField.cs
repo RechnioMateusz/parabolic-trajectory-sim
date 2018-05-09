@@ -10,41 +10,39 @@ namespace ThrowSimulation.BasicElements
     {
         public List<Vector> forces = new List<Vector>();
         public Vector momentum;
-        public Vector[] const_forces = new Vector[2];
-        private double gravity, air_res_without_velocity;
+        public Vector[] const_forces = new Vector[3];
+        private double air_res_without_velocity;
 
-        public VectorsField(Vector momentum, double gravity, double air_res_without_velocity)
+        public VectorsField(Vector momentum, double gravity, double air_res_without_velocity, double displacement_force)
         {
             this.momentum = momentum;
-            Vector gravity_vec = new Vector(0, 1);
-            gravity_vec = gravity_vec * gravity;
+            this.air_res_without_velocity = air_res_without_velocity;
+            Vector gravity_vec = new Vector(0, gravity);
             Vector air_res_vec = air_res_without_velocity * momentum;
+            Vector disp_force = new Vector(0, -displacement_force);
             const_forces[0] = gravity_vec;
             const_forces[1] = air_res_vec;
+            const_forces[2] = disp_force;
         }
 
         private void UpdateAirResistanceVec()
         {
-            Vector temp = air_res_without_velocity * momentum;
-            const_forces[1] = temp;
+            const_forces[1] = air_res_without_velocity * momentum;
         }
 
         public void UpdateMomentum()
         {
-            Vector temp = new Vector();
-
             for (int i = 0; i < const_forces.Length; i++)
             {
-                temp += const_forces[i];
+                momentum = momentum + const_forces[i];
             }
 
             for (int i = 0; i < forces.Count; i++)
             {
-                temp += forces.ElementAt(i);
+                momentum = momentum + forces.ElementAt(i);
             }
             forces.Clear();
-
-            momentum += temp;
+            
             UpdateAirResistanceVec();
         }
 

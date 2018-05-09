@@ -13,6 +13,7 @@ namespace ThrowSimulation.Loop
     {
         Drawer drawer;
         Scene new_scene;
+        Font font;
 
         public InitLoop(uint width, uint height, string title) : base(width, height, title)
         {
@@ -26,12 +27,15 @@ namespace ThrowSimulation.Loop
         {
             drawer = new Drawer();
             new_scene = new Scene(new Cannon(new Point(100, 700), new Vector(100, 30), 30, 5), width, height);
+            font = new Font("content/creditva.ttf");
         }
 
         protected override void Update(double dt)
         {
             new_scene.UpdateProjectiles();
             new_scene.cannon.Move(adapter.cursor);
+            new_scene.ClearProjectiles(adapter.clear);
+            new_scene.AddOrSubstract(adapter.key);
             bool shot = new_scene.Shoot(adapter.LMP_click, adapter.cursor);
             if (shot)
             {
@@ -41,12 +45,7 @@ namespace ThrowSimulation.Loop
 
         protected override void Render(double leftover_time)
         {
-            drawer.DrawCanon(window, new_scene.cannon);
-            for (int i = 0; i < new_scene.projectiles.Count; i++)
-            {
-                drawer.DrawProjectile(window, new_scene.projectiles.ElementAt(i));
-                //drawer.DrawVectorsField(window, new_scene.projectiles.ElementAt(i));
-            }
+            drawer.DrawScene(window, new_scene, font, adapter.vectors, adapter.fill);
         }
     }
 }
