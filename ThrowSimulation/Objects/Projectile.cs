@@ -33,7 +33,7 @@ namespace ThrowSimulation.Objects
             return temp;
         }
 
-        public void MoveFor()
+        public void Move()
         {
             vectors.UpdateMomentum();
             hitch.MoveFor(vectors.momentum.x / 60.0, vectors.momentum.y / 60.0);

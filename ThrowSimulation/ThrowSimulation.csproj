@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicElements\ChangableValues.cs" />
     <Compile Include="BasicElements\Circle.cs" />
     <Compile Include="BasicElements\Point.cs" />
     <Compile Include="BasicElements\Vector.cs" />

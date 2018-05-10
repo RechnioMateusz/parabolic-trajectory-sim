@@ -13,14 +13,14 @@ namespace ThrowSimulation.Objects
         public Point[] shape;
         public double length, width;
 
-        public Cannon(Point hitch, Vector direction, double length, double width)
+        public Cannon(Point hitch, double length, double width)
         {
             shape = new Point[4];
             this.hitch = hitch;
             this.length = length;
             this.width = width;
 
-            direction.ToUnitary();
+            Vector direction = new Vector(1, 0);
             Point temp = new Point(hitch.x + (direction.x * length), hitch.y + (direction.y * length));
             direction.Rotate(90);
 
@@ -30,7 +30,7 @@ namespace ThrowSimulation.Objects
             shape[3] = new Point(hitch.x - (direction.x * width), hitch.y - (direction.y * width));
         }
 
-        public void Move(Point cursor)
+        public void Rotate(Point cursor)
         {
             Vector direction = new Vector(hitch, cursor);
 

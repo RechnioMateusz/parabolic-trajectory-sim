@@ -64,22 +64,30 @@ namespace ThrowSimulation.Loop
         {
             Text text = new Text(value, font, size);
             text.Position = new Vector2f((float)(position.x), (float)(position.y));
+            text.Color = new Color(50, 255, 130);
             window.Draw(text);
         }
 
         public void DrawSceneInfo(RenderWindow window, Font font, Scene scene)
         {
-            DrawText(window, font, "Gravity (m/s^2): " + scene.gravity.ToString(), 20, new Point(20, 20));
-            DrawText(window, font, "Environment density (kg/m^3): " + scene.environment_density.ToString(), 20, new Point(20, 40));
-            DrawText(window, font, "Shot power: " + scene.shot_power.ToString(), 20, new Point(20, 60));
-            DrawText(window, font, "Projectile radius (m): " + scene.projectile_radius.ToString(), 20, new Point(20, 80));
-            DrawText(window, font, "Projectile mass (kg): " + scene.projectile_mass.ToString(), 20, new Point(20, 100));
-            DrawText(window, font, "Resistance force: " + scene.resistance_force.ToString(), 20, new Point(20, 120));
+            VertexArray ver_arr = new VertexArray(PrimitiveType.Lines);
+            for (int i = 0; i < 7; i++)
+            {
+                ver_arr.Append(new Vertex(new Vector2f(0, (float)(i * scene.text_height + 10)), new Color(0, 230, 230)));
+                ver_arr.Append(new Vertex(new Vector2f((float)scene.width, (float)(i * scene.text_height + 10)), new Color(0, 150, 150, 10)));
+            }
+            window.Draw(ver_arr);
+
+            DrawText(window, font, "Gravity: " + scene.gravity.value.ToString(), (uint)scene.gravity.height, scene.gravity.hitch);
+            DrawText(window, font, "Environment density: " + scene.environment_density.value.ToString(), (uint)scene.environment_density.height, scene.environment_density.hitch);
+            DrawText(window, font, "Shot power: " + scene.shot_power.value.ToString(), (uint)scene.shot_power.height, scene.shot_power.hitch);
+            DrawText(window, font, "Projectile radius: " + scene.projectile_radius.value.ToString(), (uint)scene.projectile_radius.height, scene.projectile_radius.hitch);
+            DrawText(window, font, "Projectile mass: " + scene.projectile_mass.value.ToString(), (uint)scene.projectile_mass.height, scene.projectile_mass.hitch);
+            DrawText(window, font, "Resistance force: " + scene.resistance_force.value.ToString(), (uint)scene.resistance_force.height, scene.resistance_force.hitch);
         }
 
         public void DrawScene(RenderWindow window, Scene scene, Font font, int vectors, int fill)
         {
-            DrawCanon(window, scene.cannon);
             for (int i = 0; i < scene.projectiles.Count; i++)
             {
                 DrawProjectile(window, scene.projectiles.ElementAt(i), fill);
@@ -88,6 +96,7 @@ namespace ThrowSimulation.Loop
                     DrawVectorsField(window, scene.projectiles.ElementAt(i));
                 }
             }
+            DrawCanon(window, scene.cannon);
             DrawSceneInfo(window, font, scene);
         }
     }

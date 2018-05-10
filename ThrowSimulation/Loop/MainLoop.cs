@@ -29,6 +29,7 @@ namespace ThrowSimulation.Loop
             window.KeyReleased += Window_KeyReleased;
             window.MouseButtonPressed += Window_MouseButtonPressed;
             window.MouseButtonReleased += Window_MouseButtonReleased;
+            window.MouseWheelMoved += Window_MouseWheelMoved;
             window.MouseMoved += Window_MouseMoved;
         }
 
@@ -45,60 +46,43 @@ namespace ThrowSimulation.Loop
 
         private void Window_MouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == Mouse.Button.Left)
+            switch (e.Button)
             {
-                adapter.LMP_click = true;
+                case Mouse.Button.Left:
+                    adapter.LMB_click = true;
+                    break;
+                case Mouse.Button.Right:
+                    adapter.RMB_click = true;
+                    break;
+                default:
+                    break;
             }
         }
 
         private void Window_MouseButtonReleased(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == Mouse.Button.Left)
+            switch (e.Button)
             {
-                adapter.LMP_click = false;
+                case Mouse.Button.Left:
+                    adapter.LMB_click = false;
+                    break;
+                case Mouse.Button.Right:
+                    adapter.RMB_click = false;
+                    break;
+                default:
+                    break;
             }
+        }
+
+        private void Window_MouseWheelMoved(object sender, MouseWheelEventArgs e)
+        {
+            adapter.wheel_moved = e.Delta;
         }
 
         private void Window_KeyPressed(object sender, KeyEventArgs e)
         {
             switch (e.Code)
             {
-                case Keyboard.Key.Q:
-                    adapter.key = 'q';
-                    break;
-                case Keyboard.Key.A:
-                    adapter.key = 'a';
-                    break;
-                case Keyboard.Key.W:
-                    adapter.key = 'w';
-                    break;
-                case Keyboard.Key.S:
-                    adapter.key = 's';
-                    break;
-                case Keyboard.Key.E:
-                    adapter.key = 'e';
-                    break;
-                case Keyboard.Key.D:
-                    adapter.key = 'd';
-                    break;
-                case Keyboard.Key.R:
-                    adapter.key = 'r';
-                    break;
-                case Keyboard.Key.F:
-                    adapter.key = 'f';
-                    break;
-                case Keyboard.Key.T:
-                    adapter.key = 't';
-                    break;
-                case Keyboard.Key.G:
-                    adapter.key = 'g';
-                    break;
-                case Keyboard.Key.Y:
-                    adapter.key = 'y';
-                    break;
-                case Keyboard.Key.H:
-                    adapter.key = 'h';
-                    break;
                 case Keyboard.Key.F1:
                     adapter.vectors *= -1;
                     break;
@@ -120,42 +104,6 @@ namespace ThrowSimulation.Loop
         {
             switch (e.Code)
             {
-                case Keyboard.Key.Q:
-                    adapter.key = 'x';
-                    break;
-                case Keyboard.Key.A:
-                    adapter.key = 'x';
-                    break;
-                case Keyboard.Key.W:
-                    adapter.key = 'x';
-                    break;
-                case Keyboard.Key.S:
-                    adapter.key = 'x';
-                    break;
-                case Keyboard.Key.E:
-                    adapter.key = 'x';
-                    break;
-                case Keyboard.Key.D:
-                    adapter.key = 'x';
-                    break;
-                case Keyboard.Key.R:
-                    adapter.key = 'x';
-                    break;
-                case Keyboard.Key.F:
-                    adapter.key = 'x';
-                    break;
-                case Keyboard.Key.T:
-                    adapter.key = 'x';
-                    break;
-                case Keyboard.Key.G:
-                    adapter.key = 'x';
-                    break;
-                case Keyboard.Key.Y:
-                    adapter.key = 'x';
-                    break;
-                case Keyboard.Key.H:
-                    adapter.key = 'x';
-                    break;
                 case Keyboard.Key.C:
                     adapter.clear = false;
                     break;
