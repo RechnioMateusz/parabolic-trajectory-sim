@@ -52,11 +52,11 @@ namespace ThrowSimulation.Objects
             {
                 Vector direction = new Vector(cannon.hitch, mouse_position);
                 direction.ToUnitary();
-                Vector temp = direction;
+                Vector projectile_start_position = direction;
                 direction = direction * shot_power.value;
-                temp = temp * cannon.length;
+                projectile_start_position = projectile_start_position * cannon.length;
 
-                projectiles.Add(new Projectile(new Point(cannon.hitch.x + temp.x, cannon.hitch.y + temp.y), 
+                projectiles.Add(new Projectile(new Point(cannon.hitch.x + projectile_start_position.x, cannon.hitch.y + projectile_start_position.y), 
                     cannon.width, direction, projectile_mass.value, gravity.value, 
                     (-environment_density.value * resistance_force.value * projectile_radius.value), displacement_force));
 
@@ -102,7 +102,7 @@ namespace ThrowSimulation.Objects
             }
         }
 
-        public void AddOrSubstract(Point cursor, int delta)
+        public void AdjustParameters(Point cursor, int delta)
         {
             if (cursor.x >= gravity.hitch.x && cursor.y >= gravity.hitch.y && 
                 cursor.x <= gravity.hitch.x + gravity.width && cursor.y <= gravity.hitch.y + gravity.height)

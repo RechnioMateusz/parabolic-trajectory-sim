@@ -16,20 +16,22 @@ namespace ThrowSimulation.Loop
         public void DrawCanon(RenderWindow window, Cannon cannon)
         {
             VertexArray ver_arr = new VertexArray(PrimitiveType.Quads);
+            Color color = new Color(255, 100, 100);
 
             for (int i = 0; i < cannon.shape.Length; i++)
             {
-                ver_arr.Append(new Vertex(new Vector2f((float)cannon.shape[i].x, (float)cannon.shape[i].y), Color.Cyan));
+                ver_arr.Append(new Vertex(new Vector2f((float)cannon.shape[i].x, (float)cannon.shape[i].y), color));
             }
-            ver_arr.Append(new Vertex(new Vector2f((float)cannon.shape[0].x, (float)cannon.shape[0].y), Color.Cyan));
+            ver_arr.Append(new Vertex(new Vector2f((float)cannon.shape[0].x, (float)cannon.shape[0].y), color));
 
             window.Draw(ver_arr);
         }
 
         public void DrawProjectile(RenderWindow window, Projectile projectile, int fill)
         {
-            Circle circle = new Circle(projectile.hitch, projectile.radius, 10);
+            Circle circle = new Circle(projectile.hitch, projectile.radius, 15);
             VertexArray ver_arr = new VertexArray(PrimitiveType.TrianglesFan);
+            Color color = new Color(200, 200, 30);
             if (fill == -1)
             {
                 ver_arr = new VertexArray(PrimitiveType.LinesStrip);
@@ -37,10 +39,10 @@ namespace ThrowSimulation.Loop
 
             for (int i = 0; i < circle.vertices.Length; i++)
             {
-                ver_arr.Append(new Vertex(new Vector2f((float)circle.vertices[i].x, (float)circle.vertices[i].y), Color.Magenta));
+                ver_arr.Append(new Vertex(new Vector2f((float)circle.vertices[i].x, (float)circle.vertices[i].y), color));
             }
 
-            ver_arr.Append(new Vertex(new Vector2f((float)circle.vertices[0].x, (float)circle.vertices[0].y), Color.Magenta));
+            ver_arr.Append(new Vertex(new Vector2f((float)circle.vertices[0].x, (float)circle.vertices[0].y), color));
             window.Draw(ver_arr);
         }
 
@@ -71,10 +73,14 @@ namespace ThrowSimulation.Loop
         public void DrawSceneInfo(RenderWindow window, Font font, Scene scene)
         {
             VertexArray ver_arr = new VertexArray(PrimitiveType.Lines);
+            Color line_fading_color = new Color(0, 150, 150, 10);
+            Color line_color = new Color(0, 230, 230);
+
+
             for (int i = 0; i < 7; i++)
             {
-                ver_arr.Append(new Vertex(new Vector2f(0, (float)(i * scene.text_height + 10)), new Color(0, 230, 230)));
-                ver_arr.Append(new Vertex(new Vector2f((float)scene.width, (float)(i * scene.text_height + 10)), new Color(0, 150, 150, 10)));
+                ver_arr.Append(new Vertex(new Vector2f(0, (float)(i * scene.text_height + 10)),line_color ));
+                ver_arr.Append(new Vertex(new Vector2f((float)scene.width, (float)(i * scene.text_height + 10)), line_fading_color));
             }
             window.Draw(ver_arr);
 

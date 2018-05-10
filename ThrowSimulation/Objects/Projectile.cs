@@ -21,7 +21,7 @@ namespace ThrowSimulation.Objects
             vectors = new VectorsField(starting_momentum, (gravity * mass) / 60, air_res_without_vel / 60, displacement_force / 60);
         }
 
-        private Vector CalculateAccidentalVector(List<Vector> input_vectors)
+        private Vector CalculateAccidentalVector(List<Vector> input_vectors)    //ZMIEŃ TO NA BOGA
         {
             Vector temp = new Vector();
 
