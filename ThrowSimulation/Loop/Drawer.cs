@@ -69,11 +69,12 @@ namespace ThrowSimulation.Loop
 
         public void DrawSceneInfo(RenderWindow window, Font font, Scene scene)
         {
-            DrawText(window, font, "Gravity: " + scene.gravity.ToString(), 20, new Point(20, 20));
-            DrawText(window, font, "Environment density: " + scene.environment_density.ToString(), 20, new Point(20, 40));
+            DrawText(window, font, "Gravity (m/s^2): " + scene.gravity.ToString(), 20, new Point(20, 20));
+            DrawText(window, font, "Environment density (kg/m^3): " + scene.environment_density.ToString(), 20, new Point(20, 40));
             DrawText(window, font, "Shot power: " + scene.shot_power.ToString(), 20, new Point(20, 60));
-            DrawText(window, font, "Projectile radius: " + scene.projectile_radius.ToString(), 20, new Point(20, 80));
-            DrawText(window, font, "Projectile mass: " + scene.projectile_mass.ToString(), 20, new Point(20, 100));
+            DrawText(window, font, "Projectile radius (m): " + scene.projectile_radius.ToString(), 20, new Point(20, 80));
+            DrawText(window, font, "Projectile mass (kg): " + scene.projectile_mass.ToString(), 20, new Point(20, 100));
+            DrawText(window, font, "Resistance force: " + scene.resistance_force.ToString(), 20, new Point(20, 120));
         }
 
         public void DrawScene(RenderWindow window, Scene scene, Font font, int vectors, int fill)

@@ -93,6 +93,12 @@ namespace ThrowSimulation.Loop
                 case Keyboard.Key.G:
                     adapter.key = 'g';
                     break;
+                case Keyboard.Key.Y:
+                    adapter.key = 'y';
+                    break;
+                case Keyboard.Key.H:
+                    adapter.key = 'h';
+                    break;
                 case Keyboard.Key.F1:
                     adapter.vectors *= -1;
                     break;
@@ -142,6 +148,12 @@ namespace ThrowSimulation.Loop
                     adapter.key = 'x';
                     break;
                 case Keyboard.Key.G:
+                    adapter.key = 'x';
+                    break;
+                case Keyboard.Key.Y:
+                    adapter.key = 'x';
+                    break;
+                case Keyboard.Key.H:
                     adapter.key = 'x';
                     break;
                 case Keyboard.Key.C:

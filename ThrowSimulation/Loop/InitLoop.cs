@@ -26,7 +26,7 @@ namespace ThrowSimulation.Loop
         protected override void Initialize()
         {
             drawer = new Drawer();
-            new_scene = new Scene(new Cannon(new Point(100, 700), new Vector(100, 30), 30, 5), width, height);
+            new_scene = new Scene(new Cannon(new Point(100, 700), new Vector(100, 30), 30, 4), width, height);
             font = new Font("content/creditva.ttf");
         }
 

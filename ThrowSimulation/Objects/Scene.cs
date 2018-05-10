@@ -14,8 +14,8 @@ namespace ThrowSimulation.Objects
         private double width, height;
         public double gravity = 9.81,
             environment_density = 1.9,
-            resistance_force = 0.45,
-            shot_power = 3000,
+            resistance_force = 0.2,
+            shot_power = 2000,
             projectile_radius,
             displacement_force,
             projectile_mass = 300;
@@ -120,6 +120,12 @@ namespace ThrowSimulation.Objects
                     break;
                 case 'g':
                     projectile_mass -= 1;
+                    break;
+                case 'y':
+                    resistance_force += 0.1;
+                    break;
+                case 'h':
+                    resistance_force -= 0.1;
                     break;
                 default:
                     break;
