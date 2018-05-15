@@ -10,7 +10,7 @@ namespace ThrowSimulation.Objects
     class Projectile
     {
         public Point hitch;
-        public double radius, mass;
+        public double radius, mass, mass_inverted;
         public VectorsField vectors;
 
         public Projectile(Point hitch, double radius, Vector starting_momentum, double mass, double gravity, double air_res_without_vel, double displacement_force)
@@ -18,19 +18,13 @@ namespace ThrowSimulation.Objects
             this.hitch = hitch;
             this.radius = radius;
             this.mass = mass;
+            mass_inverted = 1 / mass;
             vectors = new VectorsField(starting_momentum, (gravity * mass) / 60, air_res_without_vel / 60, displacement_force / 60);
         }
 
-        private Vector CalculateAccidentalVector(List<Vector> input_vectors)    //ZMIEŃ TO NA BOGA
+        public void CalculateAccidentalVector(List<Vector> input_vectors)
         {
-            Vector temp = new Vector();
-
-            for (int i = 0; i < input_vectors.Count; i++)
-            {
-                temp += input_vectors[i];
-            }
-
-            return temp;
+            vectors.forces = input_vectors;
         }
 
         public void Move()

@@ -36,6 +36,7 @@ namespace ThrowSimulation.Loop
             scene.cannon.Rotate(adapter.cursor);
             scene.ClearProjectiles(adapter.clear);
             scene.Shoot(adapter.LMB_click, adapter.cursor);
+            scene.Collide();
             scene.AdjustParameters(adapter.cursor, adapter.wheel_moved);
             scene.MoveCannon(adapter.RMB_click, adapter.cursor);
 

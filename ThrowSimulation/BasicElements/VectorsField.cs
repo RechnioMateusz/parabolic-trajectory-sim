@@ -45,10 +45,5 @@ namespace ThrowSimulation.BasicElements
             
             UpdateAirResistanceVec();
         }
-
-        public void AddNewForce(Vector force)
-        {
-            forces.Add(force);
-        }
     }
 }

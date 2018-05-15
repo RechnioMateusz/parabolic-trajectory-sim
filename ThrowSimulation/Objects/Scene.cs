@@ -102,6 +102,26 @@ namespace ThrowSimulation.Objects
             }
         }
 
+        public void Collide()
+        {
+            for (int i = 0; i < projectiles.Count; i++)
+            {
+                for (int j = i; j < projectiles.Count; j++)
+                {
+                    if (projectiles.ElementAt(i) != projectiles.ElementAt(j))
+                    {
+                        double length_beteween_projectiles = new Vector(projectiles.ElementAt(i).hitch, projectiles.ElementAt(j).hitch).length;
+                        double radius_sum = projectiles.ElementAt(i).radius + projectiles.ElementAt(j).radius;
+                        if (length_beteween_projectiles <= radius_sum)
+                        {
+                            projectiles.ElementAt(i).vectors.momentum *= -1;
+                            projectiles.ElementAt(j).vectors.momentum *= -1;
+                        }
+                    }
+                }
+            }
+        }
+
         public void AdjustParameters(Point cursor, int delta)
         {
             if (cursor.x >= gravity.hitch.x && cursor.y >= gravity.hitch.y && 
