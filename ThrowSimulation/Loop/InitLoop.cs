@@ -12,7 +12,8 @@ namespace ThrowSimulation.Loop
     class InitLoop : MainLoop
     {
         Drawer drawer;
-        Scene new_scene;
+        Scene scene;
+        Font font;
 
         public InitLoop(uint width, uint height, string title) : base(width, height, title)
         {
@@ -25,28 +26,29 @@ namespace ThrowSimulation.Loop
         protected override void Initialize()
         {
             drawer = new Drawer();
-            new_scene = new Scene(new Cannon(new Point(100, 700), new Vector(100, 30), 30, 5), width, height);
+            scene = new Scene(new Cannon(new Point(100, 700), 30, 4), width, height);
+            font = new Font("content/ostrich-regular.ttf");
         }
 
         protected override void Update(double dt)
         {
-            new_scene.UpdateProjectiles();
-            new_scene.cannon.Move(adapter.cursor);
-            bool shot = new_scene.Shoot(adapter.LMP_click, adapter.cursor);
-            if (shot)
-            {
-                adapter.LMP_click = false;
-            }
+            scene.UpdateProjectiles();
+            scene.cannon.Rotate(adapter.cursor);
+            scene.ClearProjectiles(adapter.clear);
+            scene.Shoot(adapter.LMB_click, adapter.cursor);
+            scene.ResolveCollisions();
+            scene.AdjustParameters(adapter.cursor, adapter.wheel_moved);
+            scene.MoveCannon(adapter.RMB_click, adapter.cursor);
+
+            //Adapter fix
+            adapter.LMB_click = false;
+            adapter.RMB_click = false;
+            adapter.wheel_moved = 0;
         }
 
         protected override void Render(double leftover_time)
         {
-            drawer.DrawCanon(window, new_scene.cannon);
-            for (int i = 0; i < new_scene.projectiles.Count; i++)
-            {
-                drawer.DrawProjectile(window, new_scene.projectiles.ElementAt(i));
-                //drawer.DrawVectorsField(window, new_scene.projectiles.ElementAt(i));
-            }
+            drawer.DrawScene(window, scene, font, adapter.vectors, adapter.fill);
         }
     }
 }

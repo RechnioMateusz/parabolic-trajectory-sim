@@ -42,6 +42,11 @@ namespace ThrowSimulation.BasicElements
             y /= length;
         }
 
+        public Vector ReturnUnitary()
+        {
+            return new Vector(x / length, y / length);
+        }
+
         public double DotProduct(Vector vec)
         {
             return x * vec.x + y * vec.y;
@@ -59,6 +64,11 @@ namespace ThrowSimulation.BasicElements
         public static Vector operator +(Vector vec1, Vector vec2)
         {
             return new Vector(vec1.x + vec2.x, vec1.y + vec2.y);
+        }
+
+        public static Vector operator -(Vector vec1, Vector vec2)
+        {
+            return new Vector(vec1.x - vec2.x, vec1.y - vec1.y);
         }
 
         public static Vector operator *(Vector vec1, double num)
@@ -79,6 +89,34 @@ namespace ThrowSimulation.BasicElements
         public static Vector operator *(int num, Vector vec1)
         {
             return new Vector(vec1.x * num, vec1.y * num);
+        }
+
+        public static Vector operator /(double num, Vector vec1)
+        {
+            if (vec1.x == 0)
+            {
+                return new Vector(0, num / vec1.y);
+            }
+            else if (vec1.y == 0)
+            {
+                return new Vector(num / vec1.x, 0);
+            }
+            else
+            {
+                return new Vector(num / vec1.x, num / vec1.y);
+            }
+        }
+
+        public static Vector operator /(Vector vec1, double num)
+        {
+            if (num == 0)
+            {
+                return new Vector(0, 0);
+            }
+            else
+            {
+                return new Vector(vec1.x / num, vec1.y / num);
+            }
         }
     }
 }

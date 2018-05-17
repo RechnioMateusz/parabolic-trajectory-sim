@@ -10,6 +10,11 @@ namespace ThrowSimulation.Loop
     class Adapter
     {
         public Point cursor = new Point(0, 0);
-        public bool LMP_click = false;
+        public bool LMB_click = false;
+        public bool RMB_click = false;
+        public int vectors = 1;
+        public int fill = 1;
+        public bool clear = false;
+        public int wheel_moved = 0;
     }
 }

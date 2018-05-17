@@ -26,8 +26,10 @@ namespace ThrowSimulation.Loop
             this.background_color = Color.Black;
 
             window.KeyPressed += Window_KeyPressed;
+            window.KeyReleased += Window_KeyReleased;
             window.MouseButtonPressed += Window_MouseButtonPressed;
             window.MouseButtonReleased += Window_MouseButtonReleased;
+            window.MouseWheelMoved += Window_MouseWheelMoved;
             window.MouseMoved += Window_MouseMoved;
         }
 
@@ -44,25 +46,69 @@ namespace ThrowSimulation.Loop
 
         private void Window_MouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == Mouse.Button.Left)
+            switch (e.Button)
             {
-                adapter.LMP_click = true;
+                case Mouse.Button.Left:
+                    adapter.LMB_click = true;
+                    break;
+                case Mouse.Button.Right:
+                    adapter.RMB_click = true;
+                    break;
+                default:
+                    break;
             }
         }
 
         private void Window_MouseButtonReleased(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == Mouse.Button.Left)
+            switch (e.Button)
             {
-                adapter.LMP_click = false;
+                case Mouse.Button.Left:
+                    adapter.LMB_click = false;
+                    break;
+                case Mouse.Button.Right:
+                    adapter.RMB_click = false;
+                    break;
+                default:
+                    break;
             }
+        }
+
+        private void Window_MouseWheelMoved(object sender, MouseWheelEventArgs e)
+        {
+            adapter.wheel_moved = e.Delta;
         }
 
         private void Window_KeyPressed(object sender, KeyEventArgs e)
         {
-            if (e.Code == Keyboard.Key.Escape)
+            switch (e.Code)
             {
-                window.Close();
+                case Keyboard.Key.F1:
+                    adapter.vectors *= -1;
+                    break;
+                case Keyboard.Key.F2:
+                    adapter.fill *= -1;
+                    break;
+                case Keyboard.Key.C:
+                    adapter.clear = true;
+                    break;
+                case Keyboard.Key.Escape:
+                    window.Close();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void Window_KeyReleased(object sender, KeyEventArgs e)
+        {
+            switch (e.Code)
+            {
+                case Keyboard.Key.C:
+                    adapter.clear = false;
+                    break;
+                default:
+                    break;
             }
         }
 
