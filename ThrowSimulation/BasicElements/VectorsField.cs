@@ -41,8 +41,11 @@ namespace ThrowSimulation.BasicElements
             {
                 momentum = momentum + forces.ElementAt(i);
             }
-            forces.Clear();
-            
+            if (forces.Count != 0)
+            {
+                forces.Clear();
+            }
+
             UpdateAirResistanceVec();
         }
     }

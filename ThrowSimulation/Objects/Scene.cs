@@ -13,7 +13,7 @@ namespace ThrowSimulation.Objects
         private double cannon_scale;
         public List<Projectile> projectiles = new List<Projectile>();
         public double width, height, text_height = 30;
-        public ChangableValues gravity, environment_density, resistance_force, shot_power, projectile_radius, projectile_mass;
+        public ChangableValues gravity, environment_density, resistance_force, shot_power, projectile_radius, projectile_mass, projectile_restitution;
         public double displacement_force;
 
         public Scene(Cannon cannon, uint width, uint height)
@@ -28,10 +28,11 @@ namespace ThrowSimulation.Objects
             projectile_radius = new ChangableValues(new Point(20, 95), width, text_height, cannon.width);
             projectile_mass = new ChangableValues(new Point(20, 125), width, text_height, 300);
             resistance_force = new ChangableValues(new Point(20, 155), width, text_height, 0.2);
+            projectile_restitution = new ChangableValues(new Point(20, 185), width, text_height, 10);
             displacement_force = environment_density.value * gravity.value * Math.PI * Math.Pow(projectile_radius.value, 2);
         }
 
-        public Scene(Cannon cannon, uint width, uint height, double gravity, double environment_density, double resistance_force, double shot_power, double projectile_mass)
+        public Scene(Cannon cannon, uint width, uint height, double gravity, double environment_density, double resistance_force, double shot_power, double projectile_mass, double projectile_restitution)
         {
             this.cannon = cannon;
             cannon_scale = cannon.length / cannon.width;
@@ -43,6 +44,7 @@ namespace ThrowSimulation.Objects
             this.projectile_radius = new ChangableValues(new Point(20, 95), width, text_height, cannon.width);
             this.projectile_mass = new ChangableValues(new Point(20, 125), width, text_height, projectile_mass);
             this.resistance_force = new ChangableValues(new Point(20, 155), width, text_height, resistance_force);
+            this.projectile_restitution = new ChangableValues(new Point(20, 185), width, text_height, projectile_restitution);
             displacement_force = environment_density * gravity * Math.PI * Math.Pow(projectile_radius.value, 2);
         }
 
@@ -57,7 +59,7 @@ namespace ThrowSimulation.Objects
                 projectile_start_position = projectile_start_position * cannon.length;
 
                 projectiles.Add(new Projectile(new Point(cannon.hitch.x + projectile_start_position.x, cannon.hitch.y + projectile_start_position.y), 
-                    cannon.width, direction, projectile_mass.value, gravity.value, 
+                    cannon.width, direction, projectile_mass.value, projectile_restitution.value, gravity.value, 
                     (-environment_density.value * resistance_force.value * projectile_radius.value), displacement_force));
 
                 return true;
@@ -102,20 +104,37 @@ namespace ThrowSimulation.Objects
             }
         }
 
-        public void Collide()
+        public void ResolveCollisions()
         {
             for (int i = 0; i < projectiles.Count; i++)
             {
                 for (int j = i; j < projectiles.Count; j++)
                 {
-                    if (projectiles.ElementAt(i) != projectiles.ElementAt(j))
+                    Projectile A = projectiles.ElementAt(i);
+                    Projectile B = projectiles.ElementAt(j);
+                    if (A != B)
                     {
-                        double length_beteween_projectiles = new Vector(projectiles.ElementAt(i).hitch, projectiles.ElementAt(j).hitch).length;
-                        double radius_sum = projectiles.ElementAt(i).radius + projectiles.ElementAt(j).radius;
-                        if (length_beteween_projectiles <= radius_sum)
+                        Vector length_beteween_projectiles = new Vector(B.hitch, A.hitch);
+                        double radius_sum = A.radius + B.radius;
+                        if (length_beteween_projectiles.length <= radius_sum)
                         {
-                            projectiles.ElementAt(i).vectors.momentum *= -1;
-                            projectiles.ElementAt(j).vectors.momentum *= -1;
+                            Vector normal = length_beteween_projectiles.ReturnUnitary();
+                            Vector relative_velocity = B.vectors.momentum - A.vectors.momentum;
+                            double velocity_along_normal = normal.DotProduct(relative_velocity);
+
+                            //if (velocity_along_normal > 0)
+                            //{
+                            //    Console.WriteLine(velocity_along_normal);
+                            //    return;
+                            //}
+
+                            double e = Math.Min(B.restitution, A.restitution);
+                            double impulse_scalar = -(1 - e) * velocity_along_normal;
+                            impulse_scalar /= A.mass_inverted + B.mass_inverted;
+
+                            Vector impulse = impulse_scalar * normal;
+                            B.CalculateAccidentalVector(impulse / B.mass);
+                            A.CalculateAccidentalVector(impulse / A.mass * -1);
                         }
                     }
                 }
@@ -155,7 +174,11 @@ namespace ThrowSimulation.Objects
             {
                 resistance_force.value += delta * 0.1;
             }
-
+            else if(cursor.x >= projectile_restitution.hitch.x && cursor.y >= projectile_restitution.hitch.y &&
+                cursor.x <= projectile_restitution.hitch.x + projectile_restitution.width && cursor.y <= projectile_restitution.hitch.y + projectile_restitution.height)
+            {
+                projectile_restitution.value += delta;
+            }
         }
     }
 }

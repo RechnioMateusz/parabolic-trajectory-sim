@@ -10,21 +10,22 @@ namespace ThrowSimulation.Objects
     class Projectile
     {
         public Point hitch;
-        public double radius, mass, mass_inverted;
+        public double radius, mass, mass_inverted, restitution;
         public VectorsField vectors;
 
-        public Projectile(Point hitch, double radius, Vector starting_momentum, double mass, double gravity, double air_res_without_vel, double displacement_force)
+        public Projectile(Point hitch, double radius, Vector starting_momentum, double mass, double restitution, double gravity, double air_res_without_vel, double displacement_force)
         {
             this.hitch = hitch;
             this.radius = radius;
             this.mass = mass;
+            this.restitution = restitution;
             mass_inverted = 1 / mass;
             vectors = new VectorsField(starting_momentum, (gravity * mass) / 60, air_res_without_vel / 60, displacement_force / 60);
         }
 
-        public void CalculateAccidentalVector(List<Vector> input_vectors)
+        public void CalculateAccidentalVector(Vector input_vector)
         {
-            vectors.forces = input_vectors;
+            vectors.forces.Add(input_vector);
         }
 
         public void Move()

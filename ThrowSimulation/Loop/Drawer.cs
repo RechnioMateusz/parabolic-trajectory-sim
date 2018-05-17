@@ -77,7 +77,7 @@ namespace ThrowSimulation.Loop
             Color line_color = new Color(0, 230, 230);
 
 
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 8; i++)
             {
                 ver_arr.Append(new Vertex(new Vector2f(0, (float)(i * scene.text_height + 10)),line_color ));
                 ver_arr.Append(new Vertex(new Vector2f((float)scene.width, (float)(i * scene.text_height + 10)), line_fading_color));
@@ -89,6 +89,7 @@ namespace ThrowSimulation.Loop
             DrawText(window, font, "Shot power: " + scene.shot_power.value.ToString(), (uint)scene.shot_power.height, scene.shot_power.hitch);
             DrawText(window, font, "Projectile radius: " + scene.projectile_radius.value.ToString(), (uint)scene.projectile_radius.height, scene.projectile_radius.hitch);
             DrawText(window, font, "Projectile mass: " + scene.projectile_mass.value.ToString(), (uint)scene.projectile_mass.height, scene.projectile_mass.hitch);
+            DrawText(window, font, "Projectile restitution: " + scene.projectile_restitution.value.ToString(), (uint)scene.projectile_restitution.height, scene.projectile_restitution.hitch);
             DrawText(window, font, "Resistance force: " + scene.resistance_force.value.ToString(), (uint)scene.resistance_force.height, scene.resistance_force.hitch);
         }
 
