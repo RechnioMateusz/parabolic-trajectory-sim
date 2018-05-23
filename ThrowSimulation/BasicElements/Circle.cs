@@ -6,12 +6,21 @@ using System.Threading.Tasks;
 
 namespace ThrowSimulation.BasicElements
 {
+    /// <summary>
+    /// Class representing circle
+    /// </summary>
     class Circle
     {
         public Point center;
         public Point[] vertices;
         private double radius;
 
+        /// <summary>
+        /// Constructor calculeting circle vertices
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <param name="vertices_amount"></param>
         public Circle(Point center, double radius, int vertices_amount)
         {
             this.center = center;

@@ -7,6 +7,9 @@ using ThrowSimulation.BasicElements;
 
 namespace ThrowSimulation.Loop
 {
+    /// <summary>
+    /// Class containing variables used to comunicate input from keyboard or mouse with program
+    /// </summary>
     class Adapter
     {
         public Point cursor = new Point(0, 0);

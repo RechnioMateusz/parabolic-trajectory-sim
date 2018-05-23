@@ -9,6 +9,9 @@ using SFML.Window;
 
 namespace ThrowSimulation.Loop
 {
+    /// <summary>
+    /// Abstract loop updating window
+    /// </summary>
     abstract class MainLoop
     {
         protected RenderWindow window;
@@ -18,6 +21,13 @@ namespace ThrowSimulation.Loop
         protected const double dt = 1 / target_fps;
         protected Adapter adapter = new Adapter();
 
+        /// <summary>
+        /// Constructor creating new window instance
+        /// and key event handlers
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="title"></param>
         public MainLoop(uint width, uint height, string title)
         {
             this.width = width;
@@ -33,17 +43,44 @@ namespace ThrowSimulation.Loop
             window.MouseMoved += Window_MouseMoved;
         }
 
+        /// <summary>
+        /// Loads content before loop start
+        /// </summary>
         protected abstract void LoadContent();
+
+        /// <summary>
+        /// Initialize loaded content before loop start
+        /// </summary>
         protected abstract void Initialize();
+
+        /// <summary>
+        /// Updates logic
+        /// </summary>
+        /// <param name="dt"></param>
         protected abstract void Update(double dt);
+
+        /// <summary>
+        /// Updates UI
+        /// </summary>
+        /// <param name="leftover_time"></param>
         protected abstract void Render(double leftover_time);
 
+        /// <summary>
+        /// Mouse move event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_MouseMoved(object sender, MouseMoveEventArgs e)
         {
             adapter.cursor.x = e.X;
             adapter.cursor.y = e.Y;
         }
 
+        /// <summary>
+        /// Mouse buttons pressed event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_MouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
             switch (e.Button)
@@ -59,6 +96,11 @@ namespace ThrowSimulation.Loop
             }
         }
 
+        /// <summary>
+        /// Mouse buttons released event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_MouseButtonReleased(object sender, MouseButtonEventArgs e)
         {
             switch (e.Button)
@@ -74,11 +116,21 @@ namespace ThrowSimulation.Loop
             }
         }
 
+        /// <summary>
+        /// Mouse wheel moved event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_MouseWheelMoved(object sender, MouseWheelEventArgs e)
         {
             adapter.wheel_moved = e.Delta;
         }
 
+        /// <summary>
+        /// Keyboard key pressed event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_KeyPressed(object sender, KeyEventArgs e)
         {
             switch (e.Code)
@@ -100,6 +152,11 @@ namespace ThrowSimulation.Loop
             }
         }
 
+        /// <summary>
+        /// Keyboard key released event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_KeyReleased(object sender, KeyEventArgs e)
         {
             switch (e.Code)
@@ -112,6 +169,9 @@ namespace ThrowSimulation.Loop
             }
         }
 
+        /// <summary>
+        /// Main Loop
+        /// </summary>
         public void RUN()
         {
             LoadContent();
