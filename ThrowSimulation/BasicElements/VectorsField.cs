@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ThrowSimulation.BasicElements
 {
+    /// <summary>
+    /// Class representing field of vectors interacting with projectile
+    /// </summary>
     class VectorsField
     {
         public List<Vector> forces = new List<Vector>();
@@ -13,6 +16,14 @@ namespace ThrowSimulation.BasicElements
         public Vector[] const_forces = new Vector[3];
         private double air_res_without_velocity;
 
+        /// <summary>
+        /// Constructor that takes "constans forces provided by scene
+        /// CHANGING SCENE PARAMETERS INFLUENCES ONLY NEW PROJECTILES"
+        /// </summary>
+        /// <param name="momentum"></param>
+        /// <param name="gravity"></param>
+        /// <param name="air_res_without_velocity"></param>
+        /// <param name="displacement_force"></param>
         public VectorsField(Vector momentum, double gravity, double air_res_without_velocity, double displacement_force)
         {
             this.momentum = momentum;
@@ -25,11 +36,17 @@ namespace ThrowSimulation.BasicElements
             const_forces[2] = disp_force;
         }
 
+        /// <summary>
+        /// Updates air resistance according to momentum
+        /// </summary>
         private void UpdateAirResistanceVec()
         {
             const_forces[1] = air_res_without_velocity * momentum;
         }
 
+        /// <summary>
+        /// Updates momentum according to constans and accidental forces
+        /// </summary>
         public void UpdateMomentum()
         {
             for (int i = 0; i < const_forces.Length; i++)

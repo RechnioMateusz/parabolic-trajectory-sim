@@ -11,8 +11,16 @@ using ThrowSimulation.Objects;
 
 namespace ThrowSimulation.Loop
 {
+    /// <summary>
+    /// Class containing methods to draw all components
+    /// </summary>
     class Drawer
     {
+        /// <summary>
+        /// Draws cannon
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="cannon"></param>
         public void DrawCanon(RenderWindow window, Cannon cannon)
         {
             VertexArray ver_arr = new VertexArray(PrimitiveType.Quads);
@@ -27,11 +35,16 @@ namespace ThrowSimulation.Loop
             window.Draw(ver_arr);
         }
 
+        /// <summary>
+        /// Draws single projectile
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="projectile"></param>
+        /// <param name="fill"></param>
         public void DrawProjectile(RenderWindow window, Projectile projectile, int fill)
         {
             Circle circle = new Circle(projectile.hitch, projectile.radius, 15);
             VertexArray ver_arr = new VertexArray(PrimitiveType.TrianglesFan);
-            Color color = new Color(200, 200, 30);
             if (fill == -1)
             {
                 ver_arr = new VertexArray(PrimitiveType.LinesStrip);
@@ -39,13 +52,18 @@ namespace ThrowSimulation.Loop
 
             for (int i = 0; i < circle.vertices.Length; i++)
             {
-                ver_arr.Append(new Vertex(new Vector2f((float)circle.vertices[i].x, (float)circle.vertices[i].y), color));
+                ver_arr.Append(new Vertex(new Vector2f((float)circle.vertices[i].x, (float)circle.vertices[i].y), new Color(projectile.color[0], projectile.color[1], projectile.color[2])));
             }
 
-            ver_arr.Append(new Vertex(new Vector2f((float)circle.vertices[0].x, (float)circle.vertices[0].y), color));
+            ver_arr.Append(new Vertex(new Vector2f((float)circle.vertices[0].x, (float)circle.vertices[0].y), new Color(projectile.color[0], projectile.color[1], projectile.color[2])));
             window.Draw(ver_arr);
         }
 
+        /// <summary>
+        /// Draws fields of projectiles vectors
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="projectile"></param>
         public void DrawVectorsField(RenderWindow window, Projectile projectile)
         {
             VertexArray ver_arr = new VertexArray(PrimitiveType.Lines);
@@ -62,6 +80,14 @@ namespace ThrowSimulation.Loop
             window.Draw(ver_arr);
         }
 
+        /// <summary>
+        /// Draws single text
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="font"></param>
+        /// <param name="value"></param>
+        /// <param name="size"></param>
+        /// <param name="position"></param>
         public void DrawText(RenderWindow window, Font font, string value, uint size, Point position)
         {
             Text text = new Text(value, font, size);
@@ -70,6 +96,12 @@ namespace ThrowSimulation.Loop
             window.Draw(text);
         }
 
+        /// <summary>
+        /// Draws parameters of scene
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="font"></param>
+        /// <param name="scene"></param>
         public void DrawSceneInfo(RenderWindow window, Font font, Scene scene)
         {
             VertexArray ver_arr = new VertexArray(PrimitiveType.Lines);
@@ -93,6 +125,14 @@ namespace ThrowSimulation.Loop
             DrawText(window, font, "Resistance force: " + scene.resistance_force.value.ToString(), (uint)scene.resistance_force.height, scene.resistance_force.hitch);
         }
 
+        /// <summary>
+        /// Draws cannon, projectiles and scene info
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="scene"></param>
+        /// <param name="font"></param>
+        /// <param name="vectors"></param>
+        /// <param name="fill"></param>
         public void DrawScene(RenderWindow window, Scene scene, Font font, int vectors, int fill)
         {
             for (int i = 0; i < scene.projectiles.Count; i++)

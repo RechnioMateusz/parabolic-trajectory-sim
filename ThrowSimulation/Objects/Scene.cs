@@ -7,15 +7,25 @@ using ThrowSimulation.BasicElements;
 
 namespace ThrowSimulation.Objects
 {
+    /// <summary>
+    /// Scene class, contains and updates info about canon, projectiles and parameters.
+    /// </summary>
     class Scene
     {
         public Cannon cannon;
-        private double cannon_scale;
         public List<Projectile> projectiles = new List<Projectile>();
         public double width, height, text_height = 30;
         public ChangableValues gravity, environment_density, resistance_force, shot_power, projectile_radius, projectile_mass, projectile_restitution;
         public double displacement_force;
 
+        private double cannon_scale;
+
+        /// <summary>
+        /// Scene constructor setting default values to parameters
+        /// </summary>
+        /// <param name="cannon"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         public Scene(Cannon cannon, uint width, uint height)
         {
             this.cannon = cannon;
@@ -32,6 +42,18 @@ namespace ThrowSimulation.Objects
             displacement_force = environment_density.value * gravity.value * Math.PI * Math.Pow(projectile_radius.value, 2);
         }
 
+        /// <summary>
+        /// Scene constructor taking custom parameters
+        /// </summary>
+        /// <param name="cannon"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="gravity"></param>
+        /// <param name="environment_density"></param>
+        /// <param name="resistance_force"></param>
+        /// <param name="shot_power"></param>
+        /// <param name="projectile_mass"></param>
+        /// <param name="projectile_restitution"></param>
         public Scene(Cannon cannon, uint width, uint height, double gravity, double environment_density, double resistance_force, double shot_power, double projectile_mass, double projectile_restitution)
         {
             this.cannon = cannon;
@@ -48,6 +70,23 @@ namespace ThrowSimulation.Objects
             displacement_force = environment_density * gravity * Math.PI * Math.Pow(projectile_radius.value, 2);
         }
 
+        /// <summary>
+        /// Randomizes color, used in Shoot method
+        /// </summary>
+        /// <returns></returns>
+        private byte[] RandomizeColor()
+        {
+            Random rand = new Random();
+            return new byte[] { (byte)rand.Next(100, 255), (byte)rand.Next(100, 255), (byte)rand.Next(100, 255) };
+        }
+
+        /// <summary>
+        /// Shots on LMB on cursor directory with given force
+        /// Creates new projectile on EVERY shot
+        /// </summary>
+        /// <param name="LMB_click"></param>
+        /// <param name="mouse_position"></param>
+        /// <returns></returns>
         public bool Shoot(bool LMB_click, Point mouse_position)
         {
             if (LMB_click)
@@ -60,13 +99,18 @@ namespace ThrowSimulation.Objects
 
                 projectiles.Add(new Projectile(new Point(cannon.hitch.x + projectile_start_position.x, cannon.hitch.y + projectile_start_position.y), 
                     cannon.width, direction, projectile_mass.value, projectile_restitution.value, gravity.value, 
-                    (-environment_density.value * resistance_force.value * projectile_radius.value), displacement_force));
+                    (-environment_density.value * resistance_force.value * projectile_radius.value), displacement_force, RandomizeColor()));
 
                 return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// Deletes old cannon and creates new one on RMB on cursor directory
+        /// </summary>
+        /// <param name="RMB_click"></param>
+        /// <param name="mouse_position"></param>
         public void MoveCannon(bool RMB_click, Point mouse_position)
         {
             if (RMB_click)
@@ -75,6 +119,10 @@ namespace ThrowSimulation.Objects
             }
         }
 
+        /// <summary>
+        /// Updates all projectiles position
+        /// Deletes projectiles that went out of bounds
+        /// </summary>
         public void UpdateProjectiles()
         {
             for (int i = 0; i < projectiles.Count; i++)
@@ -96,6 +144,10 @@ namespace ThrowSimulation.Objects
             }
         }
 
+        /// <summary>
+        /// Clears all projectiels on "C" key
+        /// </summary>
+        /// <param name="just_do_it"></param>
         public void ClearProjectiles(bool just_do_it)
         {
             if (just_do_it)
@@ -104,6 +156,9 @@ namespace ThrowSimulation.Objects
             }
         }
 
+        /// <summary>
+        /// Checks if two different projectiles collide and updates their position accordingly to collision
+        /// </summary>
         public void ResolveCollisions()
         {
             for (int i = 0; i < projectiles.Count; i++)
@@ -114,33 +169,31 @@ namespace ThrowSimulation.Objects
                     Projectile B = projectiles.ElementAt(j);
                     if (A != B)
                     {
-                        Vector length_beteween_projectiles = new Vector(B.hitch, A.hitch);
+                        Vector relative_velocity = new Vector(B.hitch, A.hitch);
                         double radius_sum = A.radius + B.radius;
-                        if (length_beteween_projectiles.length <= radius_sum)
+                        if (relative_velocity.length <= radius_sum)
                         {
-                            Vector normal = length_beteween_projectiles.ReturnUnitary();
-                            Vector relative_velocity = B.vectors.momentum - A.vectors.momentum;
+                            Vector normal = relative_velocity.ReturnUnitary();
                             double velocity_along_normal = normal.DotProduct(relative_velocity);
-
-                            //if (velocity_along_normal > 0)
-                            //{
-                            //    Console.WriteLine(velocity_along_normal);
-                            //    return;
-                            //}
 
                             double e = Math.Min(B.restitution, A.restitution);
                             double impulse_scalar = -(1 - e) * velocity_along_normal;
                             impulse_scalar /= A.mass_inverted + B.mass_inverted;
 
                             Vector impulse = impulse_scalar * normal;
-                            B.CalculateAccidentalVector(impulse / B.mass);
-                            A.CalculateAccidentalVector(impulse / A.mass * -1);
+                            B.CalculateAccidentalVector(impulse / B.mass * -1);
+                            A.CalculateAccidentalVector(impulse / A.mass);
                         }
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Adjusts all parameters of scene on every mouse scroll move
+        /// </summary>
+        /// <param name="cursor"></param>
+        /// <param name="delta"></param>
         public void AdjustParameters(Point cursor, int delta)
         {
             if (cursor.x >= gravity.hitch.x && cursor.y >= gravity.hitch.y && 
